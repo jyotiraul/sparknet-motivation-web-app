@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - MindFuel{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/quotes.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+<style>
+/* Enhanced section title styling */
+    .page-section {
+        padding: 3rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .section-title {
+        text-align: center;
+        margin-bottom: 2rem;
+        position: relative;
+        font-size: 2.5rem; /* Increased from 2.2rem */
+        font-weight: 700;
+        color: #2c3e50;
+        letter-spacing: -0.5px;
+    }
+    
+    .section-title:after {
+        content: '';
+        position: absolute;
+        bottom: -15px; /* Moved further down */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px; /* Wider underline */
+        height: 5px; /* Thicker underline */
+        background: linear-gradient(to right, #007bff, #00bfff);
+        border-radius: 3px;
+    }
+    
+    /* Adjust spacing between sections */
+    section:not(:first-child) {
+        margin-top: 1.5rem;
+    }
+    
+    /* Make hero section full width */
+    .hero {
+        max-width: 100%;
+        padding: 4rem 2rem; /* Increased padding */
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .section-title {
+            font-size: 2.2rem;
+        }
+        
+        .page-section {
+            padding: 4rem 1.5rem;
+        }
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-left">
+        <h2>✨ Welcome to Daily Inspiration</h2>
+        <p>Start your journey to self-growth and success with powerful thoughts that light up your mindset.</p>
+        <blockquote>
+            "The best way to get started is to quit talking and begin doing."<br><span>– Walt Disney</span>
+        </blockquote>
+    </div>
+    <div class="hero-right">
+        <img src="https://images.pexels.com/photos/2045600/pexels-photo-2045600.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Motivational Illustration">
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="page-section" id="about">
+    <h2 class="section-title">About Our Mission</h2>
+    <div class="about-section">
+        <p>
+            At <strong>Motivation App</strong>, we believe that one powerful thought can spark a life-changing decision.
+            Our mission is to deliver motivational quotes, ideas, and articles that inspire people from all walks of life
+            to pursue their goals and unlock their potential.
+        </p>
+        <p>
+            Whether you're facing challenges or simply need a daily boost of encouragement, we're here to remind you
+            of the strength and positivity within you.
+        </p>
+        <div class="about-highlight">
+            <h3>Why We Exist</h3>
+            <ul>
+                <li>To inspire daily progress through powerful words.</li>
+                <li>To build a community of growth-minded individuals.</li>
+                <li>To share actionable insights for a positive mindset.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Quotes Section -->
+<section class="page-section" id="quotes">
+    <h2 class="section-title">Motivational Quotes</h2>
+    <p class="intro">
+        Here are some timeless quotes to lift your spirits and fuel your journey toward greatness.
+    </p>
+    <div class="quote-cards">
+        <div class="quote-card">
+            "Success is not final, failure is not fatal: It is the courage to continue that counts."<br>
+            <span>– Winston Churchill</span>
+        </div>
+        <div class="quote-card">
+            "Don't watch the clock; do what it does. Keep going."<br>
+            <span>– Sam Levenson</span>
+        </div>
+        <div class="quote-card">
+            "It always seems impossible until it's done."<br>
+            <span>– Nelson Mandela</span>
+        </div>
+        <div class="quote-card">
+            "Believe you can and you're halfway there."<br>
+            <span>– Theodore Roosevelt</span>
+        </div>
+        <div class="quote-card">
+            "The only way to do great work is to love what you do."<br>
+            <span>– Steve Jobs</span>
+        </div>
+        <div class="quote-card">
+            "You are never too old to set another goal or to dream a new dream."<br>
+            <span>– C.S. Lewis</span>
+        </div>
+    </div>
+</section>
+
+<!-- Blog Section -->
+<section class="page-section" id="blog">
+    <h2 class="section-title">Motivational Blog</h2>
+    <p class="intro">
+        Dive into stories, insights, and strategies to help you stay driven and focused on your goals.
+    </p>
+    <div class="blog-section">
+        <article class="blog-card">
+            <h3>How to Stay Motivated Every Day</h3>
+            <p>
+                Motivation isn't something that just happens—it's something you build. Set small goals, celebrate progress, and surround yourself with positivity.
+            </p>
+            <a href="#">Read More</a>
+        </article>
+
+        <article class="blog-card">
+            <h3>Turning Failure into Fuel</h3>
+            <p>
+                Every setback is a setup for a comeback. Learn how to shift your perspective and use failure as a stepping stone to success.
+            </p>
+            <a href="#">Read More</a>
+        </article>
+
+        <article class="blog-card">
+            <h3>5 Daily Habits of Highly Inspired People</h3>
+            <p>
+                Discover the simple, powerful habits that successful and inspired people swear by—and how to make them your own.
+            </p>
+            <a href="#">Read More</a>
+        </article>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="page-section" id="contact">
+    <h2 class="section-title">Contact Us</h2>
+    <p class="intro">
+        We'd love to hear from you! Whether it's feedback, a question, or a suggestion — feel free to reach out.
+    </p>
+    <div class="contact-section">
+        <form class="contact-form" action="#" method="post">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required />
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required />
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

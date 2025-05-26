@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Quotes - Motivation App{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/quotes.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="quotes-section">
+    <h2>Motivational Quotes</h2>
+    <p class="intro">
+        Here are some timeless quotes to lift your spirits and fuel your journey toward greatness.
+    </p>
+    <div class="quote-cards">
+        <div class="quote-card">
+            “Success is not final, failure is not fatal: It is the courage to continue that counts.”<br>
+            <span>– Winston Churchill</span>
+        </div>
+        <div class="quote-card">
+            “Don’t watch the clock; do what it does. Keep going.”<br>
+            <span>– Sam Levenson</span>
+        </div>
+        <div class="quote-card">
+            “It always seems impossible until it’s done.”<br>
+            <span>– Nelson Mandela</span>
+        </div>
+        <div class="quote-card">
+            “Believe you can and you’re halfway there.”<br>
+            <span>– Theodore Roosevelt</span>
+        </div>
+        <div class="quote-card">
+            “The only way to do great work is to love what you do.”<br>
+            <span>– Steve Jobs</span>
+        </div>
+        <div class="quote-card">
+            “You are never too old to set another goal or to dream a new dream.”<br>
+            <span>– C.S. Lewis</span>
+
+    </div>
+</section>
+{% endblock %}

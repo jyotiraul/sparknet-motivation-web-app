@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog - Motivation App{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="blog-section">
+    <h2>Motivational Blog</h2>
+    <p class="intro">
+        Dive into stories, insights, and strategies to help you stay driven and focused on your goals.
+    </p>
+
+    <article class="blog-card">
+        <h3>How to Stay Motivated Every Day</h3>
+        <p>
+            Motivation isn’t something that just happens—it’s something you build. Set small goals, celebrate progress, and surround yourself with positivity.
+        </p>
+        <a href="#">Read More</a>
+    </article>
+
+    <article class="blog-card">
+        <h3>Turning Failure into Fuel</h3>
+        <p>
+            Every setback is a setup for a comeback. Learn how to shift your perspective and use failure as a stepping stone to success.
+        </p>
+        <a href="#">Read More</a>
+    </article>
+
+    <article class="blog-card">
+        <h3>5 Daily Habits of Highly Inspired People</h3>
+        <p>
+            Discover the simple, powerful habits that successful and inspired people swear by—and how to make them your own.
+        </p>
+        <a href="#">Read More</a>
+    </article>
+</section>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}About - Motivation App{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="about-section">
+    <h2>About Our Mission</h2>
+    <p>
+        At <strong>Motivation App</strong>, we believe that one powerful thought can spark a life-changing decision.
+        Our mission is to deliver motivational quotes, ideas, and articles that inspire people from all walks of life
+        to pursue their goals and unlock their potential.
+    </p>
+    <p>
+        Whether you're facing challenges or simply need a daily boost of encouragement, we're here to remind you
+        of the strength and positivity within you.
+    </p>
+    <div class="about-highlight">
+        <h3>Why We Exist</h3>
+        <ul>
+            <li>To inspire daily progress through powerful words.</li>
+            <li>To build a community of growth-minded individuals.</li>
+            <li>To share actionable insights for a positive mindset.</li>
+        </ul>
+    </div>
+</section>
+{% endblock %}

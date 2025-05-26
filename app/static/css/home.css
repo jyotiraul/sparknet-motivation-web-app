@@ -1,0 +1,82 @@
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to right, #ffffff, #f0f4f8);
+    padding: 4em 3em;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    flex-wrap: wrap;
+    gap: 3em;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.hero-left {
+    flex: 1;
+    max-width: 600px;
+}
+
+.hero-left h2 {
+    font-size: 2.8em;
+    margin-bottom: 0.5em;
+    color: #222;
+}
+
+.hero-left p {
+    font-size: 1.2em;
+    margin-bottom: 1.5em;
+    color: #555;
+    line-height: 1.6;
+}
+
+.hero-left blockquote {
+    font-style: italic;
+    color: #6c757d;
+    border-left: 5px solid #007bff;
+    padding-left: 1em;
+    margin: 1.5em 0;
+}
+
+.hero-left blockquote span {
+    display: block;
+    margin-top: 0.5em;
+    font-size: 0.9em;
+    color: #888;
+}
+
+.hero-left .btn {
+    display: inline-block;
+    padding: 0.8em 1.6em;
+    background-color: #007bff;
+    color: white;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.hero-left .btn:hover {
+    background-color: #0056b3;
+}
+
+.hero-right {
+    flex: 1;
+    text-align: center;
+}
+
+.hero-right img {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+/* Smooth entrance animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
