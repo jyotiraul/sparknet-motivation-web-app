@@ -73,6 +73,13 @@ resource "aws_security_group" "motivation_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+  from_port   = 8080
+  to_port     = 8080
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+}
+
   egress {
     from_port   = 0       #allow all outbound
     to_port     = 0
@@ -84,7 +91,7 @@ resource "aws_security_group" "motivation_sg" {
 # EC2 Instance in the public subnet with the security group
 resource "aws_instance" "motivation_app" {
   ami                    = "ami-0f5ee92e2d63afc18"  # Ubuntu Server 22.04 LTS (ap-south-1)
-  instance_type          = "t2.micro"
+  instance_type          = "t3.medium"
   key_name               = "lab3"
   subnet_id              = aws_subnet.public_1a.id
   user_data              = file("ec2_setup.sh")
