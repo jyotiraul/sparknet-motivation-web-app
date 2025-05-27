@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: motivation-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: motivation-app
@@ -15,6 +15,7 @@ spec:
       containers:
       - name: motivation-container
         image: rauljyoti/motivation-web-app:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
         readinessProbe:
