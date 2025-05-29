@@ -1,0 +1,17 @@
+# Terraform
+infra/.terraform/
+infra/terraform.tfstate
+infra/terraform.tfstate.backup
+infra/.terraform.lock.hcl
+
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# Docker
+*.log
+
+# VS Code or OS-specific
+.vscode/
+.DS_Store
