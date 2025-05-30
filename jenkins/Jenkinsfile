@@ -65,13 +65,13 @@ ENDSSH
 
     post {
         success {
-            echo '✅ Pipeline succeeded!'
+            echo 'Pipeline succeeded!'
         }
         failure {
-            echo '❌ Pipeline failed!'
+            echo 'Pipeline failed!'
         }
         always {
-            echo 'ℹ️ Pipeline execution complete.'
+            echo 'Pipeline execution complete.'
         }
     }
 
