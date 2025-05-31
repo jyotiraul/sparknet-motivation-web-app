@@ -205,11 +205,9 @@ Create a pipeline job and use the `jenkins/Jenkinsfile`:
 Click on new item-> select Pipeline -> add decription, click on  GitHub hook trigger for GITScm polling, pipeline script- add code which is present in jenkins/Jenkinsfile (Note: Copy the EC2 public IP obtained from Terraform and paste it into the EC2_PUBLIC_IP = '' field in the Jenkinsfile.) 
 ```
 
-
----
 ---
 
-## 📈 Monitoring & Logs
+### Monitoring & Logs
 
 Cloudwatch -> logs -> Log groups
 AWS CloudWatch integration for:
