@@ -208,11 +208,7 @@ Click on new item-> select Pipeline -> add decription, click on  GitHub hook tri
 
 ### 🔹 AWS CloudWatch Integration
 
-AWS CloudWatch is used for comprehensive application observability, including:
-
-- Real-time log streaming
-- Error tracking and alerts
-- Performance metrics and analysis
+AWS CloudWatch is integrated to provide real-time log monitoring, error detection, and performance analysis.
 
 Navigate in AWS:
 ```
@@ -220,3 +216,5 @@ CloudWatch → Logs → Log groups → [Your Application Group]
 ```
 
 ---
+  
+ 
