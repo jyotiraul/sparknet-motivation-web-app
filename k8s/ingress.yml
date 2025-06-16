@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: motivation-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - web.motivationapp.click
+    secretName: motivationapp-tls
+  rules:
+  - host: web.motivationapp.click
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: motivation-service
+            port:
+              number: 80

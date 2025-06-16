@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: motivation-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: motivation-app
+  template:
+    metadata:
+      labels:
+        app: motivation-app
+    spec:
+      containers:
+      - name: motivation-container
+        image: rauljyoti/motivation-web-app:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 15
+          periodSeconds: 20
