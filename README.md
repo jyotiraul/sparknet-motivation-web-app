@@ -6,6 +6,9 @@ A Flask-based Motivational Web Application implementing DevOps methodologies suc
 
 ```
 motivation-web-app
+├── .github
+|   ├──workflows
+|       ├──deploy.yaml
 ├── app
 │   ├── __init__.py
 │   ├── routes.py
@@ -20,7 +23,12 @@ motivation-web-app
 │       ├── css
 │       │   └── styles.css
 │       └── js
-├── deploy/                 # Kubernetes deployment files
+├── certificate
+|   └── cluster-issuer.yaml
+|   └── documentation
+|         └──MotivationWebApp_Phase1_Documentation.pdf 
+|         └──motivation-webapp-phase2-aws-eks.pdf   # Deployment reference for AWS EKS setup
+├── k8s/                 # Kubernetes deployment files
 │   └── deployment.yml
 |   ├── service.yml
 |   └── ingress.yml
@@ -29,9 +37,6 @@ motivation-web-app
 │   ├── main.tf
 │   ├── variables.tf
 │   └── outputs.tf
-├── jenkins/                # Jenkins pipeline configuration
-│   └── Jenkinsfile
-|   └── Dockerfile          #jenkins Dockerfile
 ├── .gitignore              # Git ignore rules
 ├── Dockerfile              # Docker container- flask application
 ├── requirements.txt    
@@ -49,11 +54,11 @@ motivation-web-app
 | Web Framework    | Flask (Python)   |
 | UI               | HTML5, CSS3, JavaScript |
 | Containerization | Docker           |
-| Orchestration    | Kubernetes (Minikube) |
-| CI/CD            | Jenkins          |
+| Orchestration    | Kubernetes (AWS EKS)|
+| CI/CD            | GitHub Actions   |
 | IaC              | Terraform        |
-| Cloud Platform   | AWS (EC2, CloudWatch) |
-| Monitoring       | CloudWatch       |
+| Cloud Platform   | AWS (EC2, EKS, Route 53) |
+| Monitoring       | Prometheus, Grafana |
 | VCS & IDE        | Git, GitHub, VS Code |
 
 ---
@@ -110,111 +115,145 @@ docker run -d -p 5000:5000 rauljyoti/motivation-web-app:latest
 
 ---
 
-## ☸️ Kubernetes Deployment
-
-Ensure Minikube and Docker Desktop are running.
-
-```bash
-# Start Minikube
-minikube start
-
-# Apply Kubernetes configs
-kubectl apply -f deployment.yml
-kubectl apply -f service.yml
-kubectl apply -f ingress.yml
-
-# Access service
-minikube service motivation-service
-```
-
----
-
-## ⚙️  Establishing CI/CD Workflows 
----
-
-## ☁️ Infrastructure as Code (Terraform)
-
-### Files
-
-- `main.tf`: Defines infrastructure resources (EC2, CloudWatch).
-- `variables.tf`: Input variable declarations.
-- `outputs.tf`: Outputs (e.g., EC2 public IP).
-
-### Commands
-
-```bash
-terraform init       # Initialize Terraform
-terraform validate   # Validate configuration
-terraform plan       # Preview changes
-terraform apply      # Apply configuration
-```
-
----
-
-### CI/CD with Jenkins / Jenkins Setup 
-
-- Build Jenkins image:
-  ```bash
-  docker build -t my-jenkins-docker ./jenkins
-  ```
-
-- Run Jenkins container:
-  ```bash
-  docker run -d --name jenkins \
-    -p 9090:8080 -p 50000:50000 \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -v jenkins_home:/var/jenkins_home \
-    my-jenkins-docker
-  ```
-
-- Access Jenkins: [http://localhost:9090](http://localhost:9090)
-
-### Plugins Required
-
-- Git Plugin
-- Docker Pipeline
-- Pipeline Utility Steps
-- AWS Credentials Plugin
-- Workspace Cleanup Plugin
-- SSH Agent Plugin
-
-### Credentials Required: Dashboard-> Manage Jenkins-> Credentials ->  
-
-- dockerhub
-- github-token
-- aws-credentials
-- ec2-ssh-key
-
-
-### Webhook Integration with GitHub (via Ngrok)
-
-```bash
-choco install ngrok
-ngrok config add-authtoken <your_token>
-ngrok http http://localhost:9090
-```
-
-Update GitHub webhook with ngrok URL.
-Select project on github-> go to setting -> select webhook-> add webhook->
-Payload url & content type ->  click on add webhook 
-
-### Jenkinsfile Configuration
-
-Create a pipeline job and use the `jenkins/Jenkinsfile`:
-
-Click on new item-> select Pipeline -> add decription, click on  GitHub hook trigger for GITScm polling, pipeline script- add code which is present in jenkins/Jenkinsfile (Note: Copy the EC2 public IP obtained from Terraform and paste it into the EC2_PUBLIC_IP = '' field in the Jenkinsfile.) 
-
-### Monitoring & Logs
-
-### 🔹 AWS CloudWatch Integration
-
-AWS CloudWatch is integrated to provide real-time log monitoring, error detection, and performance analysis.
-
-Navigate in AWS:
-```
-CloudWatch → Logs → Log groups → [Your Application Group]
-```
-
----
-  
+## Phase II: Advanced DevOps Enhancements
  
+---
+
+## 1. Create AWS Infrastructure with Terraform
+```bash
+git clone https://github.com/jyotiraul/sparknet-motivation-web-app
+cd infra   # run terraform commands here
+terraform init
+terraform validate
+terraform plan
+terraform apply
+
+```
+
+## 2. Connect to EC2 Instance
+```bash
+ssh -i "path/to/your-key.pem" ubuntu@<EC2-PUBLIC-IP>
+```
+
+## 3. Configure AWS CLI
+```bash
+aws configure
+```
+
+## 4. Update kubeconfig for EKS Cluster
+```bash
+aws eks --region <your-region> update-kubeconfig --name <your-cluster-name>
+```
+
+## 5. Apply Deployment and Service Files
+```bash
+nano deployment.yaml
+nano service.yaml
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+kubectl get po
+kubectl get svc
+```
+
+## 6. Install NGINX Ingress Controller via Helm
+```bash
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm upgrade --install ingress-nginx ingress-nginx \
+  --repo https://kubernetes.github.io/ingress-nginx \
+  --namespace ingress-nginx --create-namespace \
+  --set controller.ingressClass=nginx \
+  --set controller.ingressClassResource.name=nginx
+```
+
+## 7. Apply Ingress Resource
+```bash
+nano ingress.yaml
+kubectl apply -f ingress.yaml
+kubectl get ingress
+```
+
+## 8. Set Up SSL with Let's Encrypt and cert-manager
+```bash
+kubectl create namespace cert-manager
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+helm install cert-manager jetstack/cert-manager \
+  --namespace cert-manager --set installCRDs=true
+```
+
+## 9. Create AWS Credentials Secret for cert-manager
+```bash
+kubectl create secret generic route53-credentials-secret \
+  --namespace cert-manager \
+  --from-literal=aws_access_key_id=<YOUR_KEY_ID> \
+  --from-literal=aws_secret_access_key='<YOUR_SECRET_KEY>'
+```
+
+## 10. Apply ClusterIssuer Configuration
+```bash
+nano cluster-issuer.yaml
+kubectl apply -f cluster-issuer.yaml
+```
+
+## 11. Set A Record in Route 53
+Point your domain (e.g., `motivationapp.click`) to the Ingress `EXTERNAL-IP`.
+
+## 12. Access the Web App
+```text
+https://web.motivationapp.click/
+```
+
+## 13. CI/CD  using github action 
+```text
+.github/workflows/deploy.yaml 
+```
+
+## 14. Set Up Monitoring with Prometheus and Grafana
+```bash
+helm repo add stable https://charts.helm.sh/stable
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+kubectl create namespace prometheus
+helm install prometheus-stack prometheus-community/kube-prometheus-stack -n prometheus
+kubectl get pods -n prometheus
+kubectl get svc -n prometheus
+```
+
+## 15. Expose Prometheus and Grafana
+```bash
+kubectl edit svc prometheus-stack-kube-prom-prometheus -n prometheus
+kubectl edit svc prometheus-stack-grafana -n prometheus
+```
+
+## 16. Access Grafana UI
+- Get LoadBalancer IP:
+  ```bash
+  kubectl get svc -n prometheus
+  ```
+- Open Grafana in browser
+- Login: `admin / prom-operator`
+
+## 17. Import Dashboards in Grafana
+| Metric Type   | Dashboard Name                        | ID     |
+|---------------|----------------------------------------|--------|
+| CPU & Memory  | Node Exporter Full                    | 1860   |
+| Request Count | Kubernetes Cluster Monitoring         | 6417   |
+| Error Rates   | API / Web Service Monitoring          | 11074  |
+
+## 18. Sample Prometheus Queries
+
+- **Memory Usage %**
+  ```promql
+  100 - ((node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100)
+  ```
+
+- **Network Usage**
+  ```promql
+  rate(node_network_receive_bytes_total[5m])
+  ```
+
+- **CPU Usage %**
+  ```promql
+  100 - (avg by (instance)(irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+  ```
