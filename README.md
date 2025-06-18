@@ -155,22 +155,27 @@ kubectl get po
 kubectl get svc
 ```
 
-## 6. Install NGINX Ingress Controller via Helm
-```bash
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
-helm upgrade --install ingress-nginx ingress-nginx \
-  --repo https://kubernetes.github.io/ingress-nginx \
-  --namespace ingress-nginx --create-namespace \
-  --set controller.ingressClass=nginx \
-  --set controller.ingressClassResource.name=nginx
-```
+## 6. Use a custom domain with SSL 
+ Register a domain- Navigate to AWS Route 53, then go to Registered Domains and click on Register Domain Select domain and click on procced to checkout.
 
-## 7. Apply Ingress Resource
+
+## 7. Add cert-manager policy 
 ```bash
-nano ingress.yaml
-kubectl apply -f ingress.yaml
-kubectl get ingress
+{ 
+  "Version": "2012-10-17", 
+  "Statement": [ 
+    { 
+      "Effect": "Allow", 
+      "Action": [ 
+        "route53:GetChange", 
+        "route53:ChangeResourceRecordSets", 
+        "route53:ListResourceRecordSets", 
+        "route53:ListHostedZones" 
+      ], 
+      "Resource": "*" 
+    } 
+  ] 
+} 
 ```
 
 ## 8. Set Up SSL with Let's Encrypt and cert-manager
@@ -196,20 +201,45 @@ nano cluster-issuer.yaml
 kubectl apply -f cluster-issuer.yaml
 ```
 
-## 11. Set A Record in Route 53
-Point your domain (e.g., `motivationapp.click`) to the Ingress `EXTERNAL-IP`.
+## 11. Install NGINX Ingress Controller via Helm
+```bash
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm upgrade --install ingress-nginx ingress-nginx \
+  --repo https://kubernetes.github.io/ingress-nginx \
+  --namespace ingress-nginx --create-namespace \
+  --set controller.ingressClass=nginx \
+  --set controller.ingressClassResource.name=nginx
+```
 
-## 12. Access the Web App
+## 12. Apply Ingress Resource
+```bash
+nano ingress.yaml
+kubectl apply -f ingress.yaml
+kubectl get ingress
+```
+
+## 13. Set A Record in Route 53
+Point your domain (e.g., `motivationapp.click`) to the Ingress `EXTERNAL-IP`.click to that IP via an A record.  
+
+## 14. check certificate Ready 'true'
+```bash
+kubectl get svc ingress-nginx-controller -n ingress-nginx    #check external ip / cname will be same
+nslookup web.motivationapp.click
+
+kubectl get certificate 
+```
+
+## 15. Access the Web Application
 ```text
 https://web.motivationapp.click/
 ```
 
-## 13. CI/CD  using github action 
-```text
-.github/workflows/deploy.yaml 
-```
+## 16. CI/CD  using github action 
+.github/workflows/deploy.yaml   #Create a GitHub Actions workflow
+Go to GitHub Repo > Settings > Secrets and variables > Actions > New repository secret, and add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, DOCKER_PASSWORD, DOCKER_USERNAME, EKS_CLUSTER_NAME, KUBE_CONFIG.
 
-## 14. Set Up Monitoring with Prometheus and Grafana
+## 17. Set Up Monitoring with Prometheus and Grafana
 ```bash
 helm repo add stable https://charts.helm.sh/stable
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -220,28 +250,29 @@ kubectl get pods -n prometheus
 kubectl get svc -n prometheus
 ```
 
-## 15. Expose Prometheus and Grafana
+## 18. Expose Prometheus and Grafana
 ```bash
 kubectl edit svc prometheus-stack-kube-prom-prometheus -n prometheus
 kubectl edit svc prometheus-stack-grafana -n prometheus
+#change type to LoadBalancer
 ```
 
-## 16. Access Grafana UI
+## 19. Access Grafana UI
 - Get LoadBalancer IP:
   ```bash
-  kubectl get svc -n prometheus
+  kubectl get svc -n prometheus   #copy stable grafana cname and paste into the browser
   ```
 - Open Grafana in browser
 - Login: `admin / prom-operator`
 
-## 17. Import Dashboards in Grafana
+## 20. Import Dashboards in Grafana
 | Metric Type   | Dashboard Name                        | ID     |
 |---------------|----------------------------------------|--------|
 | CPU & Memory  | Node Exporter Full                    | 1860   |
 | Request Count | Kubernetes Cluster Monitoring         | 6417   |
 | Error Rates   | API / Web Service Monitoring          | 11074  |
 
-## 18. Sample Prometheus Queries
+## 21. Sample Prometheus Queries
 
 - **Memory Usage %**
   ```promql
