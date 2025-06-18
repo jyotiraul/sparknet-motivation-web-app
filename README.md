@@ -236,7 +236,8 @@ https://web.motivationapp.click/
 ```
 
 ## 16. CI/CD  using github action 
-.github/workflows/deploy.yaml   #Create a GitHub Actions workflow
+.github/workflows/deploy.yaml   #Create a GitHub Actions workflow.
+
 Go to GitHub Repo > Settings > Secrets and variables > Actions > New repository secret, and add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, DOCKER_PASSWORD, DOCKER_USERNAME, EKS_CLUSTER_NAME, KUBE_CONFIG.
 
 ## 17. Set Up Monitoring with Prometheus and Grafana
