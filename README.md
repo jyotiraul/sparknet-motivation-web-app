@@ -1,4 +1,4 @@
-# Empowerment Hub
+# Motivation Flask App
 
 A Flask-based Motivational Web Application implementing DevOps methodologies such as containerization, IaC, CI/CD, Kubernetes deployment, and cloud monitoring.
 
